@@ -17,14 +17,13 @@ BuildRequires:	libtool >= 2:1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-UMFPACK is a set of routines for solving unsymmetric sparse
-linear systems, Ax=b, using the Unsymmetric MultiFrontal method.
-Written in ANSI/ISO C, with a MATLAB (Version 6.0 and later)
-interface. Appears as a built-in routine (for lu, backslash,
-and forward slash) in MATLAB. Includes a MATLAB interface,
-a C-callable interface, and a Fortran-callable interface.
-Note that "UMFPACK" is pronounced in two syllables, "Umph Pack".
-It is not "You Em Ef Pack".
+UMFPACK is a set of routines for solving unsymmetric sparse linear
+systems, Ax=b, using the Unsymmetric MultiFrontal method. Written in
+ANSI/ISO C, with a MATLAB (Version 6.0 and later) interface. Appears
+as a built-in routine (for lu, backslash, and forward slash) in
+MATLAB. Includes a MATLAB interface, a C-callable interface, and a
+Fortran-callable interface. Note that "UMFPACK" is pronounced in two
+syllables, "Umph Pack". It is not "You Em Ef Pack".
 
 %package devel
 Summary:	Header files for UMFPACK library
