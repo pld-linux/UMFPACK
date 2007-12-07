@@ -6,7 +6,7 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK.shared/Demo/Makefile
  include /usr/share/misc/UFconfig.mk
  
 -C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../../AMD/Include
-+C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include
++C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd
  
 -INC = ../Include/umfpack.h ../../AMD/Include/amd.h
 +INC = ../Include/umfpack.h
@@ -35,7 +35,7 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK.shared/Demo/Makefile
  
  umfpack_simple: umfpack_simple.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_simple umfpack_simple.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_simple umfpack_simple.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd -o umfpack_simple umfpack_simple.c $(UMFPACK) $(LIBS)
  
  # the GNU rules are simpler:
  # umfpack_%_demo.c: umfpack_xx_demo.c umfpack_%_demo.sed
@@ -44,7 +44,7 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK.shared/Demo/Makefile
  
  umfpack_di_demo: umfpack_di_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_di_demo umfpack_di_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_di_demo umfpack_di_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd -o umfpack_di_demo umfpack_di_demo.c $(UMFPACK) $(LIBS)
  
  # double-precision, UF_long verion:
  umfpack_dl_demo.c: umfpack_xx_demo.c umfpack_dl_demo.sed
@@ -52,7 +52,7 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK.shared/Demo/Makefile
  
  umfpack_dl_demo: umfpack_dl_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_dl_demo umfpack_dl_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_dl_demo umfpack_dl_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd -o umfpack_dl_demo umfpack_dl_demo.c $(UMFPACK) $(LIBS)
  
  # complex, int verion:
  umfpack_zi_demo.c: umfpack_xx_demo.c umfpack_zi_demo.sed
@@ -60,7 +60,7 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK.shared/Demo/Makefile
  
  umfpack_zi_demo: umfpack_zi_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_zi_demo umfpack_zi_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_zi_demo umfpack_zi_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd -o umfpack_zi_demo umfpack_zi_demo.c $(UMFPACK) $(LIBS)
  
  # complex, UF_long verion:
  umfpack_zl_demo.c: umfpack_xx_demo.c umfpack_zl_demo.sed
@@ -68,7 +68,7 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK.shared/Demo/Makefile
  
  umfpack_zl_demo: umfpack_zl_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_zl_demo umfpack_zl_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_zl_demo umfpack_zl_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd -o umfpack_zl_demo umfpack_zl_demo.c $(UMFPACK) $(LIBS)
  
  run: umfpack_di_demo umfpack_zi_demo umfpack_dl_demo umfpack_zl_demo umfpack_simple
  	./umfpack_simple
@@ -86,7 +86,7 @@ diff -ur UMFPACK/Lib/GNUmakefile UMFPACK.shared/Lib/GNUmakefile
  
 -C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) \
 -    -I../Include -I../Source -I../../AMD/Include
-+C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source
++C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd
  
  #-------------------------------------------------------------------------------
  # source files
@@ -105,11 +105,11 @@ diff -ur UMFPACK/Lib/GNUmakefile UMFPACK.shared/Lib/GNUmakefile
  
  umf_i_%.o: ../Source/umf_%.c $(INC)
 -	$(C) -DDINT -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_l_%.o: ../Source/umf_%.c $(INC)
 -	$(C) -DDLONG -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  #-------------------------------------------------------------------------------
  # compile each routine in the DI version
@@ -117,43 +117,43 @@ diff -ur UMFPACK/Lib/GNUmakefile UMFPACK.shared/Lib/GNUmakefile
  
  umf_di_%.o: ../Source/umf_%.c $(INC)
 -	$(C) -DDINT -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_di_%hsolve.o: ../Source/umf_%tsolve.c $(INC)
 -	$(C) -DDINT -DCONJUGATE_SOLVE -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDINT -DCONJUGATE_SOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDINT -DCONJUGATE_SOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_di_triplet_map_x.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DDINT -DDO_MAP -DDO_VALUES -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDINT -DDO_MAP -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDINT -DDO_MAP -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_di_triplet_map_nox.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DDINT -DDO_MAP -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDINT -DDO_MAP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDINT -DDO_MAP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_di_triplet_nomap_x.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DDINT -DDO_VALUES -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDINT -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDINT -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_di_triplet_nomap_nox.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DDINT -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_di_assemble_fixq.o: ../Source/umf_assemble.c $(INC)
 -	$(C) -DDINT -DFIXQ -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDINT -DFIXQ $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDINT -DFIXQ $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_di_store_lu_drop.o: ../Source/umf_store_lu.c $(INC)
 -	$(C) -DDINT -DDROP -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDINT -DDROP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDINT -DDROP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umfpack_di_wsolve.o: ../Source/umfpack_solve.c $(INC)
 -	$(C) -DDINT -DWSOLVE -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDINT -DWSOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDINT -DWSOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umfpack_di_%.o: ../Source/umfpack_%.c $(INC)
 -	$(C) -DDINT -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  #-------------------------------------------------------------------------------
  # compile each routine in the DL version
@@ -161,43 +161,43 @@ diff -ur UMFPACK/Lib/GNUmakefile UMFPACK.shared/Lib/GNUmakefile
  
  umf_dl_%.o: ../Source/umf_%.c $(INC)
 -	$(C) -DDLONG -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_dl_%hsolve.o: ../Source/umf_%tsolve.c $(INC)
 -	$(C) -DDLONG -DCONJUGATE_SOLVE -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDLONG -DCONJUGATE_SOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDLONG -DCONJUGATE_SOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_dl_triplet_map_x.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DDLONG -DDO_MAP -DDO_VALUES -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDLONG -DDO_MAP -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDLONG -DDO_MAP -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_dl_triplet_map_nox.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DDLONG -DDO_MAP -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDLONG -DDO_MAP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDLONG -DDO_MAP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_dl_triplet_nomap_x.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DDLONG -DDO_VALUES -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDLONG -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDLONG -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_dl_triplet_nomap_nox.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DDLONG -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_dl_assemble_fixq.o: ../Source/umf_assemble.c $(INC)
 -	$(C) -DDLONG -DFIXQ -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDLONG -DFIXQ $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDLONG -DFIXQ $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_dl_store_lu_drop.o: ../Source/umf_store_lu.c $(INC)
 -	$(C) -DDLONG -DDROP -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDLONG -DDROP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDLONG -DDROP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umfpack_dl_wsolve.o: ../Source/umfpack_solve.c $(INC)
 -	$(C) -DDLONG -DWSOLVE -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDLONG -DWSOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDLONG -DWSOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umfpack_dl_%.o: ../Source/umfpack_%.c $(INC)
 -	$(C) -DDLONG -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DDLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DDLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  #-------------------------------------------------------------------------------
  # compile each routine in the ZI version
@@ -205,43 +205,43 @@ diff -ur UMFPACK/Lib/GNUmakefile UMFPACK.shared/Lib/GNUmakefile
  
  umf_zi_%.o: ../Source/umf_%.c $(INC)
 -	$(C) -DZINT -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zi_%hsolve.o: ../Source/umf_%tsolve.c $(INC)
 -	$(C) -DZINT -DCONJUGATE_SOLVE -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZINT -DCONJUGATE_SOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZINT -DCONJUGATE_SOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zi_triplet_map_x.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DZINT -DDO_MAP -DDO_VALUES -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZINT -DDO_MAP -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZINT -DDO_MAP -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zi_triplet_map_nox.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DZINT -DDO_MAP -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZINT -DDO_MAP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZINT -DDO_MAP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zi_triplet_nomap_x.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DZINT -DDO_VALUES -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZINT -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZINT -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zi_triplet_nomap_nox.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DZINT -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zi_assemble_fixq.o: ../Source/umf_assemble.c $(INC)
 -	$(C) -DZINT -DFIXQ -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZINT -DFIXQ $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZINT -DFIXQ $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zi_store_lu_drop.o: ../Source/umf_store_lu.c $(INC)
 -	$(C) -DZINT -DDROP -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZINT -DDROP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZINT -DDROP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umfpack_zi_wsolve.o: ../Source/umfpack_solve.c $(INC)
 -	$(C) -DZINT -DWSOLVE -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZINT -DWSOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZINT -DWSOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umfpack_zi_%.o: ../Source/umfpack_%.c $(INC)
 -	$(C) -DZINT -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZINT $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  #-------------------------------------------------------------------------------
  # compile each routine in the ZL version
@@ -249,43 +249,43 @@ diff -ur UMFPACK/Lib/GNUmakefile UMFPACK.shared/Lib/GNUmakefile
  
  umf_zl_%.o: ../Source/umf_%.c $(INC)
 -	$(C) -DZLONG -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zl_%hsolve.o: ../Source/umf_%tsolve.c $(INC)
 -	$(C) -DZLONG -DCONJUGATE_SOLVE -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZLONG -DCONJUGATE_SOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZLONG -DCONJUGATE_SOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zl_triplet_map_x.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DZLONG -DDO_MAP -DDO_VALUES -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZLONG -DDO_MAP -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZLONG -DDO_MAP -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zl_triplet_map_nox.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DZLONG -DDO_MAP -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZLONG -DDO_MAP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZLONG -DDO_MAP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zl_triplet_nomap_x.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DZLONG -DDO_VALUES -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZLONG -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZLONG -DDO_VALUES $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zl_triplet_nomap_nox.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DZLONG -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zl_assemble_fixq.o: ../Source/umf_assemble.c $(INC)
 -	$(C) -DZLONG -DFIXQ -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZLONG -DFIXQ $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZLONG -DFIXQ $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umf_zl_store_lu_drop.o: ../Source/umf_store_lu.c $(INC)
 -	$(C) -DZLONG -DDROP -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZLONG -DDROP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZLONG -DDROP $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umfpack_zl_wsolve.o: ../Source/umfpack_solve.c $(INC)
 -	$(C) -DZLONG -DWSOLVE -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZLONG -DWSOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZLONG -DWSOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  umfpack_zl_%.o: ../Source/umfpack_%.c $(INC)
 -	$(C) -DZLONG -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) -DZLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) -DZLONG $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  #-------------------------------------------------------------------------------
  # Create the generic routines (GN) using a generic rule
@@ -293,7 +293,7 @@ diff -ur UMFPACK/Lib/GNUmakefile UMFPACK.shared/Lib/GNUmakefile
  
  umfpack_gn_%.o: ../Source/umfpack_%.c $(INC)
  	$(C) -c $< -o $@
-+	libtool --tag=CC --mode=compile $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -c $< -o $@
++	libtool --tag=CC --mode=compile $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
  
  #-------------------------------------------------------------------------------
  # Create the ../Lib/libumfpack.a library
