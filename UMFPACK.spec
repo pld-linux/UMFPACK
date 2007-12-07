@@ -1,13 +1,14 @@
 Summary:	UMFPACK: sparse multifrontal LU factorization
 Name:		UMFPACK
 Version:	5.2.0
-Release:	1
+Release:	2
 License:	LGPL
 Group:		Libraries
 Source0:	http://www.cise.ufl.edu/research/sparse/umfpack/%{name}-%{version}.tar.gz
 # Source0-md5:	8ad2d68c7c49dfcdd8321e806e6c611c
 Patch0:		%{name}-ufconfig.patch
 Patch1:		%{name}-shared.patch
+Patch2:		%{name}-include-AMD.patch
 URL:		http://www.cise.ufl.edu/research/sparse/umfpack/
 BuildRequires:	UFconfig
 BuildRequires:	AMD-devel
@@ -31,6 +32,7 @@ Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki UMFPACK
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	UFconfig
+Requires:	AMD-devel
 
 %description devel
 Header files for UMFPACK library.
@@ -54,6 +56,7 @@ Statyczna biblioteka UMFPACK.
 %setup -q -n %{name}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__make} \
