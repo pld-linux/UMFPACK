@@ -64,13 +64,13 @@ Statyczna biblioteka umfpack.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_includedir}
+install -d $RPM_BUILD_ROOT%{_includedir}/umfpack
 
 %{__make} -C Lib install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	libdir=%{_libdir}
 
-install Include/* $RPM_BUILD_ROOT%{_includedir}
+install Include/*.h $RPM_BUILD_ROOT%{_includedir}/umfpack
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -87,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libumfpack.so
 %{_libdir}/libumfpack.la
-%{_includedir}/*
+%{_includedir}/umfpack
 
 %files static
 %defattr(644,root,root,755)
