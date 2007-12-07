@@ -26,29 +26,29 @@ Note that "UMFPACK" is pronounced in two syllables, "Umph Pack".
 It is not "You Em Ef Pack".
 
 %package devel
-Summary:	Header files for umfpack library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki umfpack
+Summary:	Header files for UMFPACK library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki UMFPACK
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	UFconfig
 
 %description devel
-Header files for umfpack library.
+Header files for UMFPACK library.
 
 %description devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki umfpack.
+Pliki nagłówkowe biblioteki UMFPACK.
 
 %package static
-Summary:	Static umfpack library
-Summary(pl.UTF-8):	Statyczna biblioteka umfpack
+Summary:	Static UMFPACK library
+Summary(pl.UTF-8):	Statyczna biblioteka UMFPACK
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
-Static umfpack library.
+Static UMFPACK library.
 
 %description static -l pl.UTF-8
-Statyczna biblioteka umfpack.
+Statyczna biblioteka UMFPACK.
 
 %prep
 %setup -q -n %{name}
