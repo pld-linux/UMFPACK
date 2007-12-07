@@ -303,7 +303,7 @@ diff -ur UMFPACK/Lib/GNUmakefile UMFPACK.shared/Lib/GNUmakefile
 -	$(AR) ../Lib/libumfpack.a $^
 -	- $(RANLIB) ../Lib/libumfpack.a
 +../Lib/libumfpack.la: $(II) $(LL) $(GN) $(DI) $(DL) $(ZI) $(ZL)
-+	libtool --tag=CC --mode=link $(CC) -o libumfpack.la -rpath $(libdir) $^ -lm
++	libtool --tag=CC --mode=link $(CC) -o libumfpack.la -rpath $(libdir) $^ -lm -lamd
 +
 +install: libumfpack.la
 +	install -d $(DESTDIR)$(libdir)
