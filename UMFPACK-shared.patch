@@ -35,7 +35,7 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK.shared/Demo/Makefile
  
  umfpack_simple: umfpack_simple.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_simple umfpack_simple.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_simple umfpack_simple.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_simple umfpack_simple.c $(UMFPACK) $(LIBS)
  
  # the GNU rules are simpler:
  # umfpack_%_demo.c: umfpack_xx_demo.c umfpack_%_demo.sed
@@ -44,7 +44,7 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK.shared/Demo/Makefile
  
  umfpack_di_demo: umfpack_di_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_di_demo umfpack_di_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_di_demo umfpack_di_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_di_demo umfpack_di_demo.c $(UMFPACK) $(LIBS)
  
  # double-precision, UF_long verion:
  umfpack_dl_demo.c: umfpack_xx_demo.c umfpack_dl_demo.sed
@@ -52,7 +52,7 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK.shared/Demo/Makefile
  
  umfpack_dl_demo: umfpack_dl_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_dl_demo umfpack_dl_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_dl_demo umfpack_dl_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_dl_demo umfpack_dl_demo.c $(UMFPACK) $(LIBS)
  
  # complex, int verion:
  umfpack_zi_demo.c: umfpack_xx_demo.c umfpack_zi_demo.sed
@@ -60,7 +60,7 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK.shared/Demo/Makefile
  
  umfpack_zi_demo: umfpack_zi_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_zi_demo umfpack_zi_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_zi_demo umfpack_zi_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_zi_demo umfpack_zi_demo.c $(UMFPACK) $(LIBS)
  
  # complex, UF_long verion:
  umfpack_zl_demo.c: umfpack_xx_demo.c umfpack_zl_demo.sed
@@ -68,7 +68,7 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK.shared/Demo/Makefile
  
  umfpack_zl_demo: umfpack_zl_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_zl_demo umfpack_zl_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_zl_demo umfpack_zl_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -o umfpack_zl_demo umfpack_zl_demo.c $(UMFPACK) $(LIBS)
  
  run: umfpack_di_demo umfpack_zi_demo umfpack_dl_demo umfpack_zl_demo umfpack_simple
  	./umfpack_simple
@@ -303,7 +303,7 @@ diff -ur UMFPACK/Lib/GNUmakefile UMFPACK.shared/Lib/GNUmakefile
 -	$(AR) ../Lib/libumfpack.a $^
 -	- $(RANLIB) ../Lib/libumfpack.a
 +../Lib/libumfpack.la: $(II) $(LL) $(GN) $(DI) $(DL) $(ZI) $(ZL)
-+	libtool --tag=CC --mode=link $(CC) -o libumfpack.la -rpath $(libdir) $^ -lm -lamd -lblas
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) -o libumfpack.la -rpath $(libdir) $^ -lm -lamd -lblas
 +
 +install: libumfpack.la
 +	install -d $(DESTDIR)$(libdir)
