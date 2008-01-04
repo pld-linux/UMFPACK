@@ -1,8 +1,9 @@
 Summary:	UMFPACK: sparse multifrontal LU factorization
+Summary(pl.UTF-8):	UMFPACK - wielofrontalny rozkład LU macierzy rzadkich
 Name:		UMFPACK
 Version:	5.2.0
 Release:	2
-License:	LGPL
+License:	GPL v2+
 Group:		Libraries
 Source0:	http://www.cise.ufl.edu/research/sparse/umfpack/%{name}-%{version}.tar.gz
 # Source0-md5:	8ad2d68c7c49dfcdd8321e806e6c611c
@@ -10,8 +11,8 @@ Patch0:		%{name}-ufconfig.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-include-AMD.patch
 URL:		http://www.cise.ufl.edu/research/sparse/umfpack/
-BuildRequires:	UFconfig
 BuildRequires:	AMD-devel
+BuildRequires:	UFconfig
 BuildRequires:	blas-devel
 BuildRequires:	libtool >= 2:1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -25,13 +26,23 @@ MATLAB. Includes a MATLAB interface, a C-callable interface, and a
 Fortran-callable interface. Note that "UMFPACK" is pronounced in two
 syllables, "Umph Pack". It is not "You Em Ef Pack".
 
+%description -l pl.UTF-8
+UMFPACK to zbiór procedur do rozwiązywania niesymetrycznych rzadkich
+układów równań liniowych Ax=b przy użyciu metody UMF (Unsymmetric
+MultiFrontal). Jest napisany w ANSI/ISO C z interfejsem do MATLAB-a
+(w wersji 6.0 i nowszych). W MATLAB-ie jest dostępny jako wbudowana
+procedura (dla lu, backslasha i slasha). Oprócz interfejsu dla
+MATLAB-a dostępny jest interfejs dostępny z C i Fortranu. Uwaga:
+"UMFPACK" powinno się wymawiać jako dwie sylaby: "Umf Pak"; nie jako
+"U Em Ef Pak".
+
 %package devel
 Summary:	Header files for UMFPACK library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki UMFPACK
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	UFconfig
 Requires:	AMD-devel
+Requires:	UFconfig
 
 %description devel
 Header files for UMFPACK library.
@@ -82,11 +93,12 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README.txt
+%doc README.txt Doc/{ChangeLog,License}
 %attr(755,root,root) %{_libdir}/libumfpack.so.*.*.*
 
 %files devel
 %defattr(644,root,root,755)
+%doc Doc/{QuickStart,UserGuide}.pdf
 %attr(755,root,root) %{_libdir}/libumfpack.so
 %{_libdir}/libumfpack.la
 %{_includedir}/umfpack
