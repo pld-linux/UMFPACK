@@ -71,7 +71,7 @@ Statyczna biblioteka UMFPACK.
 %build
 %{__make} \
 	CC="%{__cc}" \
-	CFLAGS="%{rpmcflags} -fPIC" \
+	CFLAGS="%{rpmcflags}" \
 	LDFLAGS="%{rpmldflags}" \
 	libdir=%{_libdir}
 
@@ -95,6 +95,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README.txt Doc/{ChangeLog,License}
 %attr(755,root,root) %{_libdir}/libumfpack.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libumfpack.so.0
 
 %files devel
 %defattr(644,root,root,755)
