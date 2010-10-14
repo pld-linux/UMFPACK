@@ -10,14 +10,13 @@ diff -ur UMFPACK/Demo/Makefile UMFPACK-uf/Demo/Makefile
  
 -C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../../AMD/Include \
 -    -I../../UFconfig
-+C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../../AMD/Include
++C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd
  
 -INC = ../Include/umfpack.h ../../AMD/Include/amd.h ../../UFconfig/UFconfig.h
 +INC = ../Include/umfpack.h ../../AMD/Include/amd.h
  
  LIBS = $(BLAS) $(XERBLA) $(LIB)
  
-Only in UMFPACK-uf/Demo: Makefile~
 diff -ur UMFPACK/Doc/Makefile UMFPACK-uf/Doc/Makefile
 --- UMFPACK/Doc/Makefile	2006-01-30 17:51:24.000000000 +0100
 +++ UMFPACK-uf/Doc/Makefile	2007-12-02 19:19:00.000000000 +0100
@@ -30,24 +29,24 @@ diff -ur UMFPACK/Doc/Makefile UMFPACK-uf/Doc/Makefile
  
  #-------------------------------------------------------------------------------
  # Remove all but the files in the original distribution
-Only in UMFPACK-uf/Doc: Makefile~
-diff -ur UMFPACK/Lib/GNUmakefile UMFPACK-uf/Lib/GNUmakefile
---- UMFPACK/Lib/GNUmakefile	2007-05-06 14:31:22.000000000 +0200
-+++ UMFPACK-uf/Lib/GNUmakefile	2007-12-02 19:20:09.000000000 +0100
-@@ -4,10 +4,10 @@
+--- UMFPACK/Lib/GNUmakefile.orig	2009-11-11 21:09:54.000000000 +0100
++++ UMFPACK/Lib/GNUmakefile	2010-10-13 19:56:54.827741882 +0200
+@@ -4,12 +4,10 @@
  
- default: ../Lib/libumfpack.a
+ default: libumfpack.a
  
 -include ../../UFconfig/UFconfig.mk
 +include /usr/share/misc/UFconfig.mk
  
  C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) \
--    -I../Include -I../Source -I../../AMD/Include -I../../UFconfig
-+    -I../Include -I../Source -I../../AMD/Include
+-    -I../Include -I../Source -I../../AMD/Include -I../../UFconfig \
+-    -I../../CCOLAMD/Include -I../../CAMD/Include -I../../CHOLMOD/Include \
+-    -I../../metis-4.0/Lib -I../../COLAMD/Include
++    -I../Include -I../Source -I/usr/include/amd -I/usr/include/cholmod
  
  #-------------------------------------------------------------------------------
  # source files
-@@ -65,7 +65,7 @@
+@@ -67,7 +65,7 @@
  # include files:
  #-------------------------------------------------------------------------------
  
@@ -56,7 +55,6 @@ diff -ur UMFPACK/Lib/GNUmakefile UMFPACK-uf/Lib/GNUmakefile
  	../Source/umf_config.h ../Source/umf_version.h \
  	../Source/umf_internal.h ../Source/umf_triplet.h \
  	$(addprefix ../Source/,  $(addsuffix .h,$(UMFCH))) \
-Only in UMFPACK-uf/Lib: GNUmakefile~
 diff -ur UMFPACK/Lib/Makefile UMFPACK-uf/Lib/Makefile
 --- UMFPACK/Lib/Makefile	2007-05-05 21:50:23.000000000 +0200
 +++ UMFPACK-uf/Lib/Makefile	2007-12-02 19:19:20.000000000 +0100
@@ -69,7 +67,6 @@ diff -ur UMFPACK/Lib/Makefile UMFPACK-uf/Lib/Makefile
  
  C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../../AMD/Include \
      -I../Source
-Only in UMFPACK-uf/Lib: Makefile~
 diff -ur UMFPACK/Makefile UMFPACK-uf/Makefile
 --- UMFPACK/Makefile	2007-10-30 23:03:55.000000000 +0100
 +++ UMFPACK-uf/Makefile	2007-12-02 19:21:14.000000000 +0100
@@ -82,33 +79,17 @@ diff -ur UMFPACK/Makefile UMFPACK-uf/Makefile
  
  # compile all C code (except hb, fortran, and fortran64), including AMD and the
  # MATLAB mexFunctions
-Only in UMFPACK-uf: Makefile~
-diff -ur UMFPACK/MATLAB/GNUmakefile UMFPACK-uf/MATLAB/GNUmakefile
---- UMFPACK/MATLAB/GNUmakefile	2007-05-06 04:55:06.000000000 +0200
-+++ UMFPACK-uf/MATLAB/GNUmakefile	2007-12-02 19:20:41.000000000 +0100
-@@ -4,9 +4,9 @@
- 
- default: umfpack2 luflop
+--- UMFPACK/MATLAB/Makefile.orig	2009-11-11 21:10:02.000000000 +0100
++++ UMFPACK/MATLAB/Makefile	2010-10-13 09:39:55.187740205 +0200
+@@ -5,7 +5,7 @@
+ default:
+ 	- echo "Use umfpack_make.m in MATLAB to compile the UMFPACK mexFunction"
  
 -include ../../UFconfig/UFconfig.mk
 +include /usr/share/misc/UFconfig.mk
  
--I =  -I../Include -I../Source -I../../AMD/Include -I../../UFconfig
-+I =  -I../Include -I../Source -I../../AMD/Include
- 
- MX = $(MEX) $(I)
-     
-@@ -74,8 +74,7 @@
- # include files:
  #-------------------------------------------------------------------------------
- 
--AMDH = ../../AMD/Include/amd_internal.h ../../AMD/Include/amd.h \
--    ../../UFconfig/UFconfig.h
-+AMDH = ../../AMD/Include/amd_internal.h ../../AMD/Include/amd.h
- 
- INC1 = umf_config.h umf_version.h umf_internal.h umf_triplet.h
- 
-Only in UMFPACK-uf/MATLAB: GNUmakefile~
+ # Remove all but the files in the original distribution
 diff -ur UMFPACK/Tcov/Makefile UMFPACK-uf/Tcov/Makefile
 --- UMFPACK/Tcov/Makefile	2006-12-01 13:47:48.000000000 +0100
 +++ UMFPACK-uf/Tcov/Makefile	2007-12-02 19:21:03.000000000 +0100
@@ -119,4 +100,3 @@ diff -ur UMFPACK/Tcov/Makefile UMFPACK-uf/Tcov/Makefile
  
  linux: distclean
  	./DO.linux
-Only in UMFPACK-uf/Tcov: Makefile~
