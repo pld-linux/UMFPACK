@@ -1,6 +1,6 @@
---- UMFPACK/Demo/Makefile.orig	2010-10-13 19:57:37.299742720 +0200
-+++ UMFPACK/Demo/Makefile	2010-10-13 20:18:51.035741882 +0200
-@@ -17,35 +17,14 @@
+--- UMFPACK/Demo/Makefile.orig	2011-01-28 16:54:05.792693904 +0100
++++ UMFPACK/Demo/Makefile	2011-01-28 16:56:24.156689713 +0100
+@@ -17,35 +17,17 @@
  
  C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd
  
@@ -29,18 +29,18 @@
 -../../CAMD/Lib/libcamd.a:
 -	( cd ../../CAMD ; $(MAKE) library )
 -
--../../metis-4.0/libmetis.a:
--	( cd ../../metis-4.0/Lib ; $(MAKE) )
--
+ $(METIS):
+ 	( cd $(METIS_PATH) ; $(MAKE) )
+ 
 -UMFPACK = ../Lib/libumfpack.a ../../AMD/Lib/libamd.a \
 -    ../../CHOLMOD/Lib/libcholmod.a ../../COLAMD/Lib/libcolamd.a \
--    ../../CAMD/Lib/libcamd.a ../../metis-4.0/libmetis.a \
+-    ../../CAMD/Lib/libcamd.a $(METIS) \
 -    ../../CCOLAMD/Lib/libccolamd.a
 +UMFPACK = ../Lib/libumfpack.la
  
  libs: $(UMFPACK)
  
-@@ -56,7 +35,7 @@
+@@ -56,7 +38,7 @@
  dist: umfpack_di_demo.c umfpack_dl_demo.c umfpack_zi_demo.c umfpack_zl_demo.c
  
  umfpack_simple: umfpack_simple.c $(INC) $(UMFPACK)
@@ -49,7 +49,7 @@
  
  # the GNU rules are simpler:
  # umfpack_%_demo.c: umfpack_xx_demo.c umfpack_%_demo.sed
-@@ -73,28 +52,28 @@
+@@ -73,28 +55,28 @@
  	- sed -f umfpack_di_demo.sed < umfpack_xx_demo.c > umfpack_di_demo.c
  
  umfpack_di_demo: umfpack_di_demo.c $(INC) $(UMFPACK)
