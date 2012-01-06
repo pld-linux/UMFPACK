@@ -1,14 +1,8 @@
---- UMFPACK/Demo/Makefile.orig	2011-01-28 16:54:05.792693904 +0100
-+++ UMFPACK/Demo/Makefile	2011-01-28 16:56:24.156689713 +0100
-@@ -17,35 +17,17 @@
+--- UMFPACK/Demo/Makefile.orig	2012-01-06 09:13:28.333467677 +0100
++++ UMFPACK/Demo/Makefile	2012-01-06 09:18:09.170143746 +0100
+@@ -48,30 +48,10 @@
  
- C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd
- 
--INC = ../Include/umfpack.h ../../AMD/Include/amd.h
-+INC = ../Include/umfpack.h
- 
--LIBS = $(BLAS) $(XERBLA) $(LIB)
-+LIBS = $(BLAS) $(XERBLA) $(LIB) -lamd
+ LIBS = $(BLAS) $(XERBLA) $(LIB) $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
  
 -../Lib/libumfpack.a:
 +../Lib/libumfpack.la:
@@ -18,29 +12,28 @@
 -	( cd ../../AMD ; $(MAKE) library )
 -
 -../../CHOLMOD/Lib/libcholmod.a:
--	( cd ../../CHOLMOD ; $(MAKE) library )
+-	- ( cd ../../CHOLMOD && $(MAKE) library )
 -
 -../../COLAMD/Lib/libcolamd.a:
--	( cd ../../COLAMD ; $(MAKE) library )
+-	- ( cd ../../COLAMD && $(MAKE) library )
+-
 -
 -../../CCOLAMD/Lib/libccolamd.a:
--	( cd ../../CCOLAMD ; $(MAKE) library )
+-	- ( cd ../../CCOLAMD && $(MAKE) library )
 -
 -../../CAMD/Lib/libcamd.a:
--	( cd ../../CAMD ; $(MAKE) library )
+-	- ( cd ../../CAMD && $(MAKE) library )
 -
- $(METIS):
- 	( cd $(METIS_PATH) ; $(MAKE) )
- 
+-$(METIS):
+-	( cd $(METIS_PATH) && $(MAKE) )
+-
 -UMFPACK = ../Lib/libumfpack.a ../../AMD/Lib/libamd.a \
--    ../../CHOLMOD/Lib/libcholmod.a ../../COLAMD/Lib/libcolamd.a \
--    ../../CAMD/Lib/libcamd.a $(METIS) \
--    ../../CCOLAMD/Lib/libccolamd.a
+-    $(WITH_CHOLMOD) $(WITH_PARTITION)
 +UMFPACK = ../Lib/libumfpack.la
  
  libs: $(UMFPACK)
  
-@@ -56,7 +38,7 @@
+@@ -82,7 +62,7 @@
  dist: umfpack_di_demo.c umfpack_dl_demo.c umfpack_zi_demo.c umfpack_zl_demo.c
  
  umfpack_simple: umfpack_simple.c $(INC) $(UMFPACK)
@@ -49,7 +42,7 @@
  
  # the GNU rules are simpler:
  # umfpack_%_demo.c: umfpack_xx_demo.c umfpack_%_demo.sed
-@@ -73,28 +55,28 @@
+@@ -99,28 +79,28 @@
  	- sed -f umfpack_di_demo.sed < umfpack_xx_demo.c > umfpack_di_demo.c
  
  umfpack_di_demo: umfpack_di_demo.c $(INC) $(UMFPACK)
@@ -82,9 +75,51 @@
  
  run: umfpack_di_demo umfpack_zi_demo umfpack_dl_demo umfpack_zl_demo umfpack_simple
  	./umfpack_simple
---- UMFPACK/Lib/GNUmakefile.orig	2010-10-13 20:56:34.119741882 +0200
-+++ UMFPACK/Lib/GNUmakefile	2010-10-13 20:57:29.679734339 +0200
-@@ -2,7 +2,7 @@
+@@ -162,16 +142,16 @@
+ 	- ./umf4 a 1e-6
+ 
+ umf4: umf4.c $(UMFPACK)
+-	$(C) -o umf4 umf4.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(C) -o umf4 umf4.c $(UMFPACK) $(LIBS)
+ 
+ readhb:  readhb.f
+-	$(F77) $(F77FLAGS) -o readhb readhb.f $(F77LIB)
++	libtool --tag=F77 --mode=link $(F77) $(F77FLAGS) -o readhb readhb.f $(F77LIB)
+ 
+ readhb_size:  readhb_size.f
+-	$(F77) $(F77FLAGS) -o readhb_size readhb_size.f $(F77LIB)
++	libtool --tag=F77 --mode=link $(F77) $(F77FLAGS) -o readhb_size readhb_size.f $(F77LIB)
+ 
+ readhb_nozeros:  readhb_nozeros.f
+-	$(F77) $(F77FLAGS) -o readhb_nozeros readhb_nozeros.f $(F77LIB)
++	libtool --tag=F77 --mode=link $(F77) $(F77FLAGS) -o readhb_nozeros readhb_nozeros.f $(F77LIB)
+ 
+ #-------------------------------------------------------------------------------
+ # compile the FORTRAN interface and demo
+@@ -179,17 +159,17 @@
+ 
+ # This doesn't seem to work on the Mac (Snow Leopard, OS X 10.6.1)
+ fortran: $(UMFPACK) umf4hb.f umf4_f77wrapper.o umf4zhb.f umf4_f77zwrapper.o $(UMFPACK)
+-	$(F77) $(F77FLAGS) -o umf4hb umf4hb.f umf4_f77wrapper.o \
++	libtool --tag=F77 --mode=link $(F77) $(F77FLAGS) -o umf4hb umf4hb.f umf4_f77wrapper.o \
+ 	    $(UMFPACK) $(LIBS)
+ 	- ./umf4hb < HB/west0067.rua > my_umf4hb.out
+ 	- diff my_umf4hb.out umf4hb.out
+-	$(F77) $(F77FLAGS) -o umf4zhb umf4zhb.f umf4_f77zwrapper.o \
++	libtool --tag=F77 --mode=link $(F77) $(F77FLAGS) -o umf4zhb umf4zhb.f umf4_f77zwrapper.o \
+ 	    $(UMFPACK) $(LIBS)
+ 	- ./umf4zhb < HB/qc324.cua > my_umf4zhb.out
+ 	- diff my_umf4zhb.out umf4zhb.out
+ 
+ fortran64: $(UMFPACK) umf4hb64.f umf4_f77wrapper64.o umf4_f77zwrapper64.o $(UMFPACK)
+-	$(F77) $(F77FLAGS) -o umf4hb64 umf4hb64.f umf4_f77wrapper64.o \
++	libtool --tag=F77 --mode=link $(F77) $(F77FLAGS) -o umf4hb64 umf4hb64.f umf4_f77wrapper64.o \
+ 	    $(UMFPACK) $(LIBS)
+ 	- ./umf4hb64 < HB/west0067.rua > my_umf4hb64.out
+ 	- diff my_umf4hb64.out umf4hb64.out
+--- UMFPACK/Lib/GNUmakefile.orig	2012-01-06 09:13:28.336801011 +0100
++++ UMFPACK/Lib/GNUmakefile	2012-01-06 09:43:51.583528725 +0100
+@@ -2,16 +2,18 @@
  # UMFPACK Makefile for compiling on Unix systems (for GNU Make)
  #-------------------------------------------------------------------------------
  
@@ -93,7 +128,18 @@
  
  include /usr/share/misc/UFconfig.mk
  
-@@ -71,8 +71,7 @@
+ # UMFPACK can use CHOLMOD by default as an ordering option
+ ifneq (,$(findstring -DNCHOLMOD, $(UMFPACK_CONFIG)))
+     I = -I../Include -I../Source -I/usr/include/amd
++    LIBS = -lamd -lblas
+ else
+     I = -I../Include -I../Source -I/usr/include/amd \
+         -I/usr/include/cholmod
++    LIBS = -lcholmod -lamd -lblas
+ endif
+ 
+ C = $(CC) $(CF) $(UMFPACK_CONFIG) $(I)
+@@ -78,8 +80,7 @@
  	$(addprefix ../Source/,  $(addsuffix .h,$(UMFCH))) \
  	$(addprefix ../Source/,  $(addsuffix .h,$(UMFINT))) \
  	$(addprefix ../Include/, $(addsuffix .h,$(USER))) \
@@ -103,7 +149,7 @@
  
  #-------------------------------------------------------------------------------
  # object files for each version
-@@ -91,171 +90,171 @@
+@@ -98,171 +99,171 @@
  #-------------------------------------------------------------------------------
  
  umf_i_%.o: ../Source/umf_%.c $(INC)
@@ -256,7 +302,7 @@
  
  umf_zl_%hsolve.o: ../Source/umf_%tsolve.c $(INC)
 -	$(C) -DZLONG -DCONJUGATE_SOLVE -c $< -o $@
-+	libtool --tag=CC --mode=compile $(C) -DZLONG -DCONJUGATE_SOLVE $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../Source -I/usr/include/amd -c $< -o $@
++	libtool --tag=CC --mode=compile $(C) -DZLONG -DCONJUGATE_SOLVE -c $< -o $@
  
  umf_zl_triplet_map_x.o: ../Source/umf_triplet.c $(INC)
 -	$(C) -DZLONG -DDO_MAP -DDO_VALUES -c $< -o $@
@@ -303,10 +349,10 @@
  #-------------------------------------------------------------------------------
  
 -libumfpack.a: $(II) $(LL) $(GN) $(DI) $(DL) $(ZI) $(ZL)
--	$(AR) libumfpack.a $^
+-	$(ARCHIVE)  libumfpack.a $^
 -	- $(RANLIB) libumfpack.a
 +libumfpack.la: $(II) $(LL) $(GN) $(DI) $(DL) $(ZI) $(ZL)
-+	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) -o libumfpack.la -rpath $(libdir) $(^:.o=.lo) -lm -lamd -lcholmod -lblas
++	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) -o libumfpack.la -rpath $(libdir) $(^:.o=.lo) $(LIBS) -lm
  
 -so: $(II) $(LL) $(GN) $(DI) $(DL) $(ZI) $(ZL)
 -	gcc -shared -Wl,-soname,libumfpack.so -o libumfpack.so $^
@@ -324,66 +370,3 @@
  
  clean:
  	- $(RM) $(CLEAN)
---- UMFPACK/Makefile.orig	2010-10-13 19:57:37.315740205 +0200
-+++ UMFPACK/Makefile	2010-10-13 20:23:19.519734339 +0200
-@@ -4,8 +4,6 @@
- 
- VERSION = 5.5.0
- 
--# UMFPACK requires the AMD package to be in ../AMD
--
- default: all
- 
- include /usr/share/misc/UFconfig.mk
-@@ -13,14 +11,12 @@
- # compile all C code (except hb, fortran, and fortran64), including AMD and the
- # demos, but not the MATLAB mexFunctions
- all:
--	( cd ../AMD ; $(MAKE) library )
- 	( cd Lib    ; $(MAKE) )
- 	( cd Demo   ; $(MAKE) )
- 	- cat Doc/License
- 
- # compile just the C-callable libraries and demo programs (not mexFunctions)
- library:
--	( cd ../AMD ; $(MAKE) library )
- 	( cd Lib    ; $(MAKE) )
- 
- # compile the FORTRAN interface and demo program
-@@ -37,7 +33,6 @@
- 
- # remove object files, but keep the compiled programs and library archives
- clean:
--	( cd ../AMD ; $(MAKE) clean )
- 	( cd Lib    ; $(MAKE) clean )
- 	( cd Demo   ; $(MAKE) clean )
- 	( cd MATLAB ; $(MAKE) clean )
-@@ -45,7 +40,6 @@
- 
- # clean, and then remove compiled programs and library archives
- purge:
--	( cd ../AMD ; $(MAKE) purge )
- 	( cd Lib    ; $(MAKE) purge )
- 	( cd Demo   ; $(MAKE) purge )
- 	( cd MATLAB ; $(MAKE) purge )
-@@ -53,12 +47,10 @@
- 
- # create PDF documents for the original distribution
- docs:
--	( cd ../AMD ; $(MAKE) doc )
- 	( cd Doc    ; $(MAKE) )
- 
- # get ready for distribution
- dist: purge
--	( cd ../AMD ; $(MAKE) dist )
- 	( cd Demo   ; $(MAKE) dist )
- 	( cd Doc    ; $(MAKE) )
- 
-@@ -68,7 +60,6 @@
- 
- # compile the MATLAB mexFunction for AMD (but not UMFPACK)
- mex:
--	( cd ../AMD/MATLAB ; $(MAKE) )
- 	# ( cd MATLAB ; $(MAKE) )
- 
- # statement coverage (requires Linux; takes a lot of time and disk space)
