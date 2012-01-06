@@ -11,9 +11,9 @@ Patch0:		%{name}-ufconfig.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-include-AMD.patch
 URL:		http://www.cise.ufl.edu/research/sparse/umfpack/
-BuildRequires:	AMD-devel
-BuildRequires:	CHOLMOD-devel
-BuildRequires:	UFconfig
+BuildRequires:	AMD-devel >= 2.2.3
+BuildRequires:	CHOLMOD-devel >= 2.7.4
+BuildRequires:	UFconfig >= 3.7.0
 BuildRequires:	blas-devel
 BuildRequires:	libtool >= 2:1.5
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -42,9 +42,9 @@ Summary:	Header files for UMFPACK library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki UMFPACK
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	AMD-devel
-Requires:	CHOLMOD-devel
-Requires:	UFconfig
+Requires:	AMD-devel >= 2.2.3
+Requires:	CHOLMOD-devel >= 2.7.4
+Requires:	UFconfig >= 3.7.0
 
 %description devel
 Header files for UMFPACK library.
