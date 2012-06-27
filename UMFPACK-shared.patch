@@ -1,6 +1,6 @@
---- UMFPACK/Demo/Makefile.orig	2012-01-06 09:13:28.333467677 +0100
-+++ UMFPACK/Demo/Makefile	2012-01-06 09:18:09.170143746 +0100
-@@ -48,30 +48,10 @@
+--- UMFPACK/Demo/Makefile.orig	2012-06-27 20:05:32.088316770 +0200
++++ UMFPACK/Demo/Makefile	2012-06-27 20:08:28.351642710 +0200
+@@ -48,34 +48,10 @@
  
  LIBS = $(BLAS) $(XERBLA) $(LIB) $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
  
@@ -10,6 +10,9 @@
  
 -../../AMD/Lib/libamd.a:
 -	( cd ../../AMD ; $(MAKE) library )
+-
+-../../SuiteSparse_config/libsuitesparseconfig.a:
+-	( cd ../../SuiteSparse_config ; $(MAKE) library )
 -
 -../../CHOLMOD/Lib/libcholmod.a:
 -	- ( cd ../../CHOLMOD && $(MAKE) library )
@@ -28,12 +31,13 @@
 -	( cd $(METIS_PATH) && $(MAKE) )
 -
 -UMFPACK = ../Lib/libumfpack.a ../../AMD/Lib/libamd.a \
--    $(WITH_CHOLMOD) $(WITH_PARTITION)
+-    ../../SuiteSparse_config/libsuitesparseconfig.a \
+-    $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
 +UMFPACK = ../Lib/libumfpack.la
  
  libs: $(UMFPACK)
  
-@@ -82,7 +62,7 @@
+@@ -86,7 +62,7 @@
  dist: umfpack_di_demo.c umfpack_dl_demo.c umfpack_zi_demo.c umfpack_zl_demo.c
  
  umfpack_simple: umfpack_simple.c $(INC) $(UMFPACK)
@@ -42,20 +46,20 @@
  
  # the GNU rules are simpler:
  # umfpack_%_demo.c: umfpack_xx_demo.c umfpack_%_demo.sed
-@@ -99,28 +79,28 @@
+@@ -103,28 +79,28 @@
  	- sed -f umfpack_di_demo.sed < umfpack_xx_demo.c > umfpack_di_demo.c
  
  umfpack_di_demo: umfpack_di_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_di_demo umfpack_di_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd -o umfpack_di_demo umfpack_di_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(C) $(LDFLAGS) -o umfpack_di_demo umfpack_di_demo.c $(UMFPACK) $(LIBS)
  
- # double-precision, UF_long verion:
+ # double-precision, SuiteSparse_long verion:
  umfpack_dl_demo.c: umfpack_xx_demo.c umfpack_dl_demo.sed
  	- sed -f umfpack_dl_demo.sed < umfpack_xx_demo.c > umfpack_dl_demo.c
  
  umfpack_dl_demo: umfpack_dl_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_dl_demo umfpack_dl_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd -o umfpack_dl_demo umfpack_dl_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(C) $(LDFLAGS) -o umfpack_dl_demo umfpack_dl_demo.c $(UMFPACK) $(LIBS)
  
  # complex, int verion:
  umfpack_zi_demo.c: umfpack_xx_demo.c umfpack_zi_demo.sed
@@ -63,19 +67,19 @@
  
  umfpack_zi_demo: umfpack_zi_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_zi_demo umfpack_zi_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd -o umfpack_zi_demo umfpack_zi_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(C) $(LDFLAGS) -o umfpack_zi_demo umfpack_zi_demo.c $(UMFPACK) $(LIBS)
  
- # complex, UF_long verion:
+ # complex, SuiteSparse_long verion:
  umfpack_zl_demo.c: umfpack_xx_demo.c umfpack_zl_demo.sed
  	- sed -f umfpack_zl_demo.sed < umfpack_xx_demo.c > umfpack_zl_demo.c
  
  umfpack_zl_demo: umfpack_zl_demo.c $(INC) $(UMFPACK)
 -	$(C) -o umfpack_zl_demo umfpack_zl_demo.c $(UMFPACK) $(LIBS)
-+	libtool --tag=CC --mode=link $(CC) $(LDFLAGS) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I/usr/include/amd -o umfpack_zl_demo umfpack_zl_demo.c $(UMFPACK) $(LIBS)
++	libtool --tag=CC --mode=link $(C) $(LDFLAGS) -o umfpack_zl_demo umfpack_zl_demo.c $(UMFPACK) $(LIBS)
  
  run: umfpack_di_demo umfpack_zi_demo umfpack_dl_demo umfpack_zl_demo umfpack_simple
  	./umfpack_simple
-@@ -162,16 +142,16 @@
+@@ -166,16 +142,16 @@
  	- ./umf4 a 1e-6
  
  umf4: umf4.c $(UMFPACK)
@@ -96,7 +100,7 @@
  
  #-------------------------------------------------------------------------------
  # compile the FORTRAN interface and demo
-@@ -179,17 +159,17 @@
+@@ -183,17 +159,17 @@
  
  # This doesn't seem to work on the Mac (Snow Leopard, OS X 10.6.1)
  fortran: $(UMFPACK) umf4hb.f umf4_f77wrapper.o umf4zhb.f umf4_f77zwrapper.o $(UMFPACK)
@@ -126,7 +130,7 @@
 -default: libumfpack.a
 +default: libumfpack.la
  
- include /usr/share/misc/UFconfig.mk
+ include /usr/share/misc/SuiteSparse_config.mk
  
  # UMFPACK can use CHOLMOD by default as an ordering option
  ifneq (,$(findstring -DNCHOLMOD, $(UMFPACK_CONFIG)))

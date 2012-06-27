@@ -1,24 +1,29 @@
 Summary:	UMFPACK: sparse multifrontal LU factorization
 Summary(pl.UTF-8):	UMFPACK - wielofrontalny rozkład LU macierzy rzadkich
 Name:		UMFPACK
-Version:	5.5.2
-Release:	2
+Version:	5.6.0
+Release:	1
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://www.cise.ufl.edu/research/sparse/umfpack/%{name}-%{version}.tar.gz
-# Source0-md5:	07eaa6ae3de176e5b3681032c10c76be
+# Source0-md5:	3455a9bc7ebe54001b33e66bcf9bbc7c
 Patch0:		%{name}-ufconfig.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-include-AMD.patch
 URL:		http://www.cise.ufl.edu/research/sparse/umfpack/
-BuildRequires:	AMD-devel >= 2.2.3
-BuildRequires:	CAMD-devel >= 2.2.3
-BuildRequires:	CCOLAMD-devel >= 2.7.3
-BuildRequires:	COLAMD-devel >= 2.7.3
-BuildRequires:	CHOLMOD-devel >= 2.7.4
-BuildRequires:	UFconfig >= 3.7.0
+BuildRequires:	AMD-devel >= 2.3.0
+BuildRequires:	CAMD-devel >= 2.3.0
+BuildRequires:	CCOLAMD-devel >= 2.8.0
+BuildRequires:	COLAMD-devel >= 2.8.0
+BuildRequires:	CHOLMOD-devel >= 2.0.0
+BuildRequires:	SuiteSparse_config >= 4.0.0
 BuildRequires:	blas-devel
 BuildRequires:	libtool >= 2:1.5
+Requires:	AMD >= 2.3.0
+Requires:	CAMD >= 2.3.0
+Requires:	CCOLAMD >= 2.8.0
+Requires:	COLAMD >= 2.8.0
+Requires:	CHOLMOD >= 2.0.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -45,13 +50,12 @@ Summary:	Header files for UMFPACK library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki UMFPACK
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	AMD-devel >= 2.2.3
-Requires:	CAMD-devel >= 2.2.3
-Requires:	CCOLAMD-devel >= 2.7.3
-Requires:	COLAMD-devel >= 2.7.3
-Requires:	CHOLMOD-devel >= 2.7.4
-Requires:	CHOLMOD-devel >= 2.7.4
-Requires:	UFconfig >= 3.7.0
+Requires:	AMD-devel >= 2.3.0
+Requires:	CAMD-devel >= 2.3.0
+Requires:	CCOLAMD-devel >= 2.8.0
+Requires:	COLAMD-devel >= 2.8.0
+Requires:	CHOLMOD-devel >= 2.0.0
+Requires:	SuiteSparse_config >= 4.0.0
 
 %description devel
 Header files for UMFPACK library.

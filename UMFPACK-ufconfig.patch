@@ -4,8 +4,8 @@
  
  all64: libs run hb fortran64
  
--include ../../UFconfig/UFconfig.mk
-+include /usr/share/misc/UFconfig.mk
+-include ../../SuiteSparse_config/SuiteSparse_config.mk
++include /usr/share/misc/SuiteSparse_config.mk
  
  #-------------------------------------------------------------------------------
  # the optional Partition module requires METIS, CAMD, and CCOLAMD
@@ -45,10 +45,10 @@
  #-------------------------------------------------------------------------------
  
  C = $(CC) $(CF) $(UMFPACK_CONFIG) $(CONFIG1) $(CONFIG2) \
--    -I../Include -I../../AMD/Include -I../../UFconfig
+-    -I../Include -I../../AMD/Include -I../../SuiteSparse_config
 +    -I../Include -I/usr/include/amd
  
--INC = ../Include/umfpack.h ../../AMD/Include/amd.h ../../UFconfig/UFconfig.h
+-INC = ../Include/umfpack.h ../../AMD/Include/amd.h ../../SuiteSparse_config/SuiteSparse_config.h
 +INC = ../Include/umfpack.h
  
  LIBS = $(BLAS) $(XERBLA) $(LIB) $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
@@ -60,37 +60,37 @@ diff -ur UMFPACK/Doc/Makefile UMFPACK-uf/Doc/Makefile
  
  default: dist
  
--include ../../UFconfig/UFconfig.mk
-+include /usr/share/misc/UFconfig.mk
+-include ../../SuiteSparse_config/SuiteSparse_config.mk
++include /usr/share/misc/SuiteSparse_config.mk
  
  #-------------------------------------------------------------------------------
  # Remove all but the files in the original distribution
---- UMFPACK/Lib/GNUmakefile.orig	2011-12-08 19:48:30.000000000 +0100
-+++ UMFPACK/Lib/GNUmakefile	2012-01-06 08:36:15.313392908 +0100
+--- UMFPACK/Lib/GNUmakefile.orig	2012-05-28 01:23:50.000000000 +0200
++++ UMFPACK/Lib/GNUmakefile	2012-06-27 20:04:57.011651575 +0200
 @@ -4,14 +4,14 @@
  
  default: libumfpack.a
  
--include ../../UFconfig/UFconfig.mk
-+include /usr/share/misc/UFconfig.mk
+-include ../../SuiteSparse_config/SuiteSparse_config.mk
++include /usr/share/misc/SuiteSparse_config.mk
  
  # UMFPACK can use CHOLMOD by default as an ordering option
  ifneq (,$(findstring -DNCHOLMOD, $(UMFPACK_CONFIG)))
--    I = -I../Include -I../Source -I../../AMD/Include -I../../UFconfig
+-    I = -I../Include -I../Source -I../../AMD/Include -I../../SuiteSparse_config
 +    I = -I../Include -I../Source -I/usr/include/amd
  else
--    I = -I../Include -I../Source -I../../AMD/Include -I../../UFconfig \
--        -I../../CHOLMOD/Include
+-    I = -I../Include -I../Source -I../../AMD/Include \
+-        -I../../SuiteSparse_config -I../../CHOLMOD/Include
 +    I = -I../Include -I../Source -I/usr/include/amd \
 +        -I/usr/include/cholmod
  endif
  
  C = $(CC) $(CF) $(UMFPACK_CONFIG) $(I)
-@@ -72,7 +72,7 @@
+@@ -75,7 +75,7 @@
  # include files:
  #-------------------------------------------------------------------------------
  
--INC = ../Include/umfpack.h ../../UFconfig/UFconfig.h \
+-INC = ../Include/umfpack.h ../../SuiteSparse_config/SuiteSparse_config.h \
 +INC = ../Include/umfpack.h \
  	../Source/umf_config.h ../Source/umf_version.h \
  	../Source/umf_internal.h ../Source/umf_triplet.h \
@@ -102,8 +102,8 @@ diff -ur UMFPACK/Lib/Makefile UMFPACK-uf/Lib/Makefile
  
  default: everything
  
--include ../../UFconfig/UFconfig.mk
-+include /usr/share/misc/UFconfig.mk
+-include ../../SuiteSparse_config/SuiteSparse_config.mk
++include /usr/share/misc/SuiteSparse_config.mk
  
  C = $(CC) $(CFLAGS) $(UMFPACK_CONFIG) -I../Include -I../../AMD/Include \
      -I../Source
@@ -114,8 +114,8 @@ diff -ur UMFPACK/Makefile UMFPACK-uf/Makefile
  
  default: library
  
--include ../UFconfig/UFconfig.mk
-+include /usr/share/misc/UFconfig.mk
+-include ../SuiteSparse_config/SuiteSparse_config.mk
++include /usr/share/misc/SuiteSparse_config.mk
  
  # compile all C code (except hb, fortran, and fortran64), including AMD and the
  # MATLAB mexFunctions
@@ -125,8 +125,8 @@ diff -ur UMFPACK/Makefile UMFPACK-uf/Makefile
  default:
  	- echo "Use umfpack_make.m in MATLAB to compile the UMFPACK mexFunction"
  
--include ../../UFconfig/UFconfig.mk
-+include /usr/share/misc/UFconfig.mk
+-include ../../SuiteSparse_config/SuiteSparse_config.mk
++include /usr/share/misc/SuiteSparse_config.mk
  
  #-------------------------------------------------------------------------------
  # Remove all but the files in the original distribution
@@ -135,8 +135,8 @@ diff -ur UMFPACK/Tcov/Makefile UMFPACK-uf/Tcov/Makefile
 +++ UMFPACK-uf/Tcov/Makefile	2007-12-02 19:21:03.000000000 +0100
 @@ -1,5 +1,5 @@
  
--include ../../UFconfig/UFconfig.mk
-+include /usr/share/misc/UFconfig.mk
+-include ../../SuiteSparse_config/SuiteSparse_config.mk
++include /usr/share/misc/SuiteSparse_config.mk
  
  linux: distclean
  	./DO.linux
