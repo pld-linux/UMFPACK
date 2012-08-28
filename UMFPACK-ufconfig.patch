@@ -1,5 +1,5 @@
---- UMFPACK/Demo/Makefile.orig	2011-12-14 18:45:15.000000000 +0100
-+++ UMFPACK/Demo/Makefile	2012-01-06 08:03:34.253327243 +0100
+--- UMFPACK/Demo/Makefile.orig	2012-06-21 07:39:46.000000000 +0200
++++ UMFPACK/Demo/Makefile	2012-08-28 20:34:10.400321229 +0200
 @@ -13,7 +13,7 @@
  
  all64: libs run hb fortran64
@@ -9,34 +9,41 @@
  
  #-------------------------------------------------------------------------------
  # the optional Partition module requires METIS, CAMD, and CCOLAMD
-@@ -23,35 +23,28 @@
- LIB_WITH_CHOLMOD =
+@@ -22,69 +22,37 @@
+ CONFIG1 = -DNCHOLMOD
+ CONFIG2 = -DNPARTITION
  ifeq (,$(findstring -DNCHOLMOD, $(UMFPACK_CONFIG)))
-     # CHOLMOD is requested.  See if it is available
+-    # CHOLMOD is requested.  See if it is available
 -    ifeq (../../CHOLMOD, $(wildcard ../../CHOLMOD))
 -        ifeq (../../COLAMD, $(wildcard ../../COLAMD))
+-            # CHOLMOD and COLAMD are available
++    # CHOLMOD is requested.
 +    ifeq ($(WITH_CHOLMOD), 1)
-+        # assume COLAMD available
-             # CHOLMOD and COLAMD are available
++            # assume COLAMD available
              CONFIG1 =
 -            LIB_WITH_CHOLMOD = ../../CHOLMOD/Lib/libcholmod.a \
 -                ../../COLAMD/Lib/libcolamd.a
 +            LIB_WITH_CHOLMOD = -lcholmod -lcolamd
              # check if METIS is requested and available
              ifeq (,$(findstring -DNPARTITION, $(CHOLMOD_CONFIG)))
-                 # METIS is requested.  See if it is available
--                ifeq ($(METIS), $(wildcard $(METIS)))
+-                # METIS is requested.  See if it is available
+-                ifeq ($(METIS_PATH), $(wildcard $(METIS_PATH)))
 -                    ifeq (../../CAMD, $(wildcard ../../CAMD))
 -                        ifeq (../../CCOLAMD, $(wildcard ../../CCOLAMD))
-+                ifeq ($(WITH_METIS), 1)
-+                    # assume CAMD and CCOLAMD are available
-                             CONFIG2 =
+-                            # METIS, CAMD, and CCOLAMD are available
 -                            LIB_WITH_PARTITION = $(METIS) \
 -                                ../../CCOLAMD/Lib/libccolamd.a \
 -                                ../../CAMD/Lib/libcamd.a
+-                            I_WITH_PARTITION = -I$(METIS_PATH)/Lib \
+-                                -I../../CCOLAMD/Include -I../../CAMD/Include
++                # METIS is requested.
++                ifeq ($(WITH_METIS), 1)
++                            LIB_WITH_PARTITION = -lmetis -lccolamd -lcamd
++                            I_WITH_PARTITION = -I/usr/include/metis \
++                                -I/usr/include/ccolamd -I/usr/include/camd
+                             CONFIG2 =
 -                        endif
 -                    endif
-+                            LIB_WITH_PARTITION = $(METIS) -lccolamd -lcamd
                  endif
              endif
 -        endif
@@ -53,6 +60,38 @@
  
  LIBS = $(BLAS) $(XERBLA) $(LIB) $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
  
+ ../Lib/libumfpack.a:
+ 	( cd ../Lib ; $(MAKE) )
+ 
+-../../AMD/Lib/libamd.a:
+-	( cd ../../AMD ; $(MAKE) library )
+-
+-../../SuiteSparse_config/libsuitesparseconfig.a:
+-	( cd ../../SuiteSparse_config ; $(MAKE) library )
+-
+-../../CHOLMOD/Lib/libcholmod.a:
+-	- ( cd ../../CHOLMOD && $(MAKE) library )
+-
+-../../COLAMD/Lib/libcolamd.a:
+-	- ( cd ../../COLAMD && $(MAKE) library )
+-
+-
+-../../CCOLAMD/Lib/libccolamd.a:
+-	- ( cd ../../CCOLAMD && $(MAKE) library )
+-
+-../../CAMD/Lib/libcamd.a:
+-	- ( cd ../../CAMD && $(MAKE) library )
+-
+-$(METIS):
+-	( cd $(METIS_PATH) && $(MAKE) )
+-
+-UMFPACK = ../Lib/libumfpack.a ../../AMD/Lib/libamd.a \
+-    ../../SuiteSparse_config/libsuitesparseconfig.a \
++UMFPACK = ../Lib/libumfpack.a -lamd \
++    -lsuitesparseconfig \
+     $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
+ 
+ libs: $(UMFPACK)
 diff -ur UMFPACK/Doc/Makefile UMFPACK-uf/Doc/Makefile
 --- UMFPACK/Doc/Makefile	2006-01-30 17:51:24.000000000 +0100
 +++ UMFPACK-uf/Doc/Makefile	2007-12-02 19:19:00.000000000 +0100

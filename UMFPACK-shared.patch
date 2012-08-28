@@ -1,6 +1,6 @@
---- UMFPACK/Demo/Makefile.orig	2012-06-27 20:05:32.088316770 +0200
-+++ UMFPACK/Demo/Makefile	2012-06-27 20:08:28.351642710 +0200
-@@ -48,34 +48,10 @@
+--- UMFPACK/Demo/Makefile.orig	2012-08-28 20:34:44.256987195 +0200
++++ UMFPACK/Demo/Makefile	2012-08-28 20:35:27.766986287 +0200
+@@ -48,10 +48,10 @@
  
  LIBS = $(BLAS) $(XERBLA) $(LIB) $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
  
@@ -8,36 +8,12 @@
 +../Lib/libumfpack.la:
  	( cd ../Lib ; $(MAKE) )
  
--../../AMD/Lib/libamd.a:
--	( cd ../../AMD ; $(MAKE) library )
--
--../../SuiteSparse_config/libsuitesparseconfig.a:
--	( cd ../../SuiteSparse_config ; $(MAKE) library )
--
--../../CHOLMOD/Lib/libcholmod.a:
--	- ( cd ../../CHOLMOD && $(MAKE) library )
--
--../../COLAMD/Lib/libcolamd.a:
--	- ( cd ../../COLAMD && $(MAKE) library )
--
--
--../../CCOLAMD/Lib/libccolamd.a:
--	- ( cd ../../CCOLAMD && $(MAKE) library )
--
--../../CAMD/Lib/libcamd.a:
--	- ( cd ../../CAMD && $(MAKE) library )
--
--$(METIS):
--	( cd $(METIS_PATH) && $(MAKE) )
--
--UMFPACK = ../Lib/libumfpack.a ../../AMD/Lib/libamd.a \
--    ../../SuiteSparse_config/libsuitesparseconfig.a \
--    $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
-+UMFPACK = ../Lib/libumfpack.la
+-UMFPACK = ../Lib/libumfpack.a -lamd \
++UMFPACK = ../Lib/libumfpack.la -lamd \
+     -lsuitesparseconfig \
+     $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
  
- libs: $(UMFPACK)
- 
-@@ -86,7 +62,7 @@
+@@ -64,7 +64,7 @@
  dist: umfpack_di_demo.c umfpack_dl_demo.c umfpack_zi_demo.c umfpack_zl_demo.c
  
  umfpack_simple: umfpack_simple.c $(INC) $(UMFPACK)
@@ -46,7 +22,7 @@
  
  # the GNU rules are simpler:
  # umfpack_%_demo.c: umfpack_xx_demo.c umfpack_%_demo.sed
-@@ -103,28 +79,28 @@
+@@ -81,28 +81,28 @@
  	- sed -f umfpack_di_demo.sed < umfpack_xx_demo.c > umfpack_di_demo.c
  
  umfpack_di_demo: umfpack_di_demo.c $(INC) $(UMFPACK)
@@ -79,7 +55,7 @@
  
  run: umfpack_di_demo umfpack_zi_demo umfpack_dl_demo umfpack_zl_demo umfpack_simple
  	./umfpack_simple
-@@ -166,16 +142,16 @@
+@@ -144,16 +144,16 @@
  	- ./umf4 a 1e-6
  
  umf4: umf4.c $(UMFPACK)
@@ -100,7 +76,7 @@
  
  #-------------------------------------------------------------------------------
  # compile the FORTRAN interface and demo
-@@ -183,17 +159,17 @@
+@@ -161,17 +161,17 @@
  
  # This doesn't seem to work on the Mac (Snow Leopard, OS X 10.6.1)
  fortran: $(UMFPACK) umf4hb.f umf4_f77wrapper.o umf4zhb.f umf4_f77zwrapper.o $(UMFPACK)

@@ -1,12 +1,12 @@
 Summary:	UMFPACK: sparse multifrontal LU factorization
 Summary(pl.UTF-8):	UMFPACK - wielofrontalny rozkład LU macierzy rzadkich
 Name:		UMFPACK
-Version:	5.6.0
+Version:	5.6.1
 Release:	1
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://www.cise.ufl.edu/research/sparse/umfpack/%{name}-%{version}.tar.gz
-# Source0-md5:	3455a9bc7ebe54001b33e66bcf9bbc7c
+# Source0-md5:	225faa6d0966ac0afaf17d6282f49edd
 Patch0:		%{name}-ufconfig.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-include-AMD.patch
