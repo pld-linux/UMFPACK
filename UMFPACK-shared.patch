@@ -1,19 +1,19 @@
---- UMFPACK/Demo/Makefile.orig	2012-08-28 20:34:44.256987195 +0200
-+++ UMFPACK/Demo/Makefile	2012-08-28 20:35:27.766986287 +0200
+--- UMFPACK/Demo/Makefile.orig	2014-10-03 16:14:05.839641618 +0200
++++ UMFPACK/Demo/Makefile	2014-10-03 16:15:11.772972188 +0200
 @@ -48,10 +48,10 @@
  
- LIBS = $(BLAS) $(XERBLA) $(LIB) $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
+ LIBS = $(LAPACK) $(BLAS) $(XERBLA) $(LIB) $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION) $(CUBLAS_LIB) $(CUDART_LIB)
  
 -../Lib/libumfpack.a:
 +../Lib/libumfpack.la:
  	( cd ../Lib ; $(MAKE) )
  
--UMFPACK = ../Lib/libumfpack.a -lamd \
-+UMFPACK = ../Lib/libumfpack.la -lamd \
-     -lsuitesparseconfig \
-     $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
+-UMFPACK = ../Lib/libumfpack.a -lamd -lsuitesparseconfig \
++UMFPACK = ../Lib/libumfpack.la -lamd -lsuitesparseconfig \
+     $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION) 
  
-@@ -64,7 +64,7 @@
+ libs: $(UMFPACK)
+@@ -63,7 +63,7 @@
  dist: umfpack_di_demo.c umfpack_dl_demo.c umfpack_zi_demo.c umfpack_zl_demo.c
  
  umfpack_simple: umfpack_simple.c $(INC) $(UMFPACK)
@@ -22,7 +22,7 @@
  
  # the GNU rules are simpler:
  # umfpack_%_demo.c: umfpack_xx_demo.c umfpack_%_demo.sed
-@@ -81,28 +81,28 @@
+@@ -80,28 +80,28 @@
  	- sed -f umfpack_di_demo.sed < umfpack_xx_demo.c > umfpack_di_demo.c
  
  umfpack_di_demo: umfpack_di_demo.c $(INC) $(UMFPACK)
@@ -55,7 +55,7 @@
  
  run: umfpack_di_demo umfpack_zi_demo umfpack_dl_demo umfpack_zl_demo umfpack_simple
  	./umfpack_simple
-@@ -144,16 +144,16 @@
+@@ -143,16 +143,16 @@
  	- ./umf4 a 1e-6
  
  umf4: umf4.c $(UMFPACK)
@@ -76,7 +76,7 @@
  
  #-------------------------------------------------------------------------------
  # compile the FORTRAN interface and demo
-@@ -161,17 +161,17 @@
+@@ -160,17 +160,17 @@
  
  # This doesn't seem to work on the Mac (Snow Leopard, OS X 10.6.1)
  fortran: $(UMFPACK) umf4hb.f umf4_f77wrapper.o umf4zhb.f umf4_f77zwrapper.o $(UMFPACK)

@@ -1,5 +1,5 @@
---- UMFPACK/Demo/Makefile.orig	2012-06-21 07:39:46.000000000 +0200
-+++ UMFPACK/Demo/Makefile	2012-08-28 20:34:10.400321229 +0200
+--- UMFPACK/Demo/Makefile.orig	2014-03-22 03:19:44.000000000 +0100
++++ UMFPACK/Demo/Makefile	2014-10-03 16:13:22.816310091 +0200
 @@ -13,7 +13,7 @@
  
  all64: libs run hb fortran64
@@ -9,7 +9,7 @@
  
  #-------------------------------------------------------------------------------
  # the optional Partition module requires METIS, CAMD, and CCOLAMD
-@@ -22,69 +22,37 @@
+@@ -22,69 +22,36 @@
  CONFIG1 = -DNCHOLMOD
  CONFIG2 = -DNPARTITION
  ifeq (,$(findstring -DNCHOLMOD, $(UMFPACK_CONFIG)))
@@ -58,7 +58,7 @@
 -INC = ../Include/umfpack.h ../../AMD/Include/amd.h ../../SuiteSparse_config/SuiteSparse_config.h
 +INC = ../Include/umfpack.h
  
- LIBS = $(BLAS) $(XERBLA) $(LIB) $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
+ LIBS = $(LAPACK) $(BLAS) $(XERBLA) $(LIB) $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION) $(CUBLAS_LIB) $(CUDART_LIB)
  
  ../Lib/libumfpack.a:
  	( cd ../Lib ; $(MAKE) )
@@ -87,12 +87,10 @@
 -
 -UMFPACK = ../Lib/libumfpack.a ../../AMD/Lib/libamd.a \
 -    ../../SuiteSparse_config/libsuitesparseconfig.a \
-+UMFPACK = ../Lib/libumfpack.a -lamd \
-+    -lsuitesparseconfig \
-     $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION)
++UMFPACK = ../Lib/libumfpack.a -lamd -lsuitesparseconfig \
+     $(LIB_WITH_CHOLMOD) $(LIB_WITH_PARTITION) 
  
  libs: $(UMFPACK)
-diff -ur UMFPACK/Doc/Makefile UMFPACK-uf/Doc/Makefile
 --- UMFPACK/Doc/Makefile	2006-01-30 17:51:24.000000000 +0100
 +++ UMFPACK-uf/Doc/Makefile	2007-12-02 19:19:00.000000000 +0100
 @@ -7,7 +7,7 @@
